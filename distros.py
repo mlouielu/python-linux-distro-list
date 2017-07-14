@@ -4,7 +4,6 @@ import scrapy
 class DistrosItem(scrapy.Item):
     title = scrapy.Field()
     data = scrapy.Field()
-    
 
 
 class DistrosSpider(scrapy.Spider):
@@ -20,6 +19,7 @@ class DistrosSpider(scrapy.Spider):
             r= scrapy.Request(url,callback=self.parse_distro_page)
             r.meta['name']=distro
             yield r
+
     def parse_distro_page(self,response):
         item = DistrosItem()
         item['title']=response.meta['name']
@@ -28,5 +28,3 @@ class DistrosSpider(scrapy.Spider):
         # item['versiontable'] = zip(versions,pyversions)
         item['data']=[{'Distro_Version':dv,'Python_version':pv} for dv,pv in zip(versions,pyversions)]
         return item
-
-
